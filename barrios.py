@@ -1,4 +1,3 @@
-from sqlalchemy import create_engine
 import pandas as pd
 import dash
 import dash_core_components as dcc
