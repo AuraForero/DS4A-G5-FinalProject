@@ -20,9 +20,9 @@ with open('neigh_id.geojson') as f:
 neighs_data = pd.read_csv('neigh_data.csv', dtype={'id': object})
 
 def content():
-	airbnb_x = airbnb[['Cod_Barrio', 'Barrio']]
-	print(airbnb_x.head())
-	print(airbnb_x.groupby().count())
+	#airbnb_x = airbnb[['Cod_Barrio', 'Barrio']]
+	#print(airbnb_x.head())
+	#print(airbnb_x.groupby().count())
 	#print(type(airbnb.groupby(['Cod_Barrio', 'Barrio']).count()))
 	return  html.Div([
 				dcc.Graph(
