@@ -6,33 +6,32 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 
-engine = create_engine('postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
-
+#engine = create_engine('postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
+engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
 airbnb = pd.read_sql('select * from airbnb',engine.connect())
-
-
+airbnb_date = airbnb[airbnb['Fecha_Corte']=='2019-02-01 00:00:00']
+airbnb_date.Media_Arriendo = airbnb_date.Media_Arriendo.astype(float)
+data_to_map = airbnb_date[['Cod_Barrio','Barrio','Media_Arriendo']]
 
 token = 'pk.eyJ1IjoibmV3dXNlcmZvcmV2ZXIiLCJhIjoiY2o2M3d1dTZiMGZobzMzbnp2Z2NiN3lmdyJ9.cQFKe3F3ovbfxTsM9E0ZSQ'
 
 with open('neigh_id.geojson') as f:
     geojson = json.loads(f.read())
 
-neighs_data = pd.read_csv('neigh_data.csv', dtype={'id': object})
+#neighs_data = pd.read_csv('neigh_data.csv', dtype={'id': object})
+
 
 def content():
-	#airbnb_x = airbnb[['Cod_Barrio', 'Barrio']]
-	#print(airbnb_x.head())
-	#print(airbnb_x.groupby().count())
-	#print(type(airbnb.groupby(['Cod_Barrio', 'Barrio']).count()))
+
 	return  html.Div([
 				dcc.Graph(
 					id = 'bogota-choropleth', 
 					figure={ 
 							'data': [go.Choroplethmapbox(
 								geojson=geojson,
-								locations=neighs_data['id'],
-								text=neighs_data['neighborhood'],
-								z=neighs_data['value'],
+								locations=data_to_map['Cod_Barrio'],
+								text=data_to_map['Barrio'],
+								z=data_to_map['Media_Arriendo'],
 								colorscale='Viridis',
 								colorbar_title="Values"
 							)],
