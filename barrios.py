@@ -18,6 +18,8 @@ app = dash.Dash(
     ]
 )
 
+app.config.suppress_callback_exceptions = True
+
 app.layout = html.Div([
 	html.Div(
         children=[
@@ -45,6 +47,14 @@ def render_content(tab):
 		return neighborhood_review.content()		
 	elif tab == 'compare':
 		return compare.content()
+
+@app.callback(
+    dash.dependencies.Output('bogota-choropleth', 'figure'),
+    [dash.dependencies.Input('periods-dropdown', 'value')])
+def main_update_output(value):
+	print('callable')
+	#return 'You have selected "{}"'.format(value)	
+	return main_tab.update_map(value)
 		
 		
 if __name__ == "__main__":
