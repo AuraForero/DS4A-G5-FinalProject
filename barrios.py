@@ -22,11 +22,23 @@ app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div([
 	html.Div(
-        children=[
-            html.H2(children="Bogota", className='h2-title'),
-        ],
-        className='study-browser-banner row'
+		className="two columns card",
+		children=[
+			html.Table(
+				[html.Tr(
+					[
+					html.Td(
+						html.Img(src=app.get_asset_url('bogota.png'))		
+					),
+					html.Td(
+						html.H2(children="Coolness Index", className='h2-title')		
+					)
+					]
+				)]
+			)
+		]
     ),
+	html.Hr(),
     dcc.Tabs(id="bogota-tabs", value='tabs-container', children=[
         dcc.Tab(label='Principal', value='main'), 
         dcc.Tab(label='Cálculo del índice', value='index-calculation'), 
@@ -55,8 +67,17 @@ def main_update_output(value):
 	print('callable')
 	#return 'You have selected "{}"'.format(value)	
 	return main_tab.update_map(value)
+	
+@app.callback(
+	dash.dependencies.Output('index-map-content', 'children'),
+	[dash.dependencies.Input('show-index-check', 'value')]
+)
+def index_show_map(checklist_values):
+	print('evaluate checklist')
+	print(checklist_values)
+	
 		
 		
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(host='0.0.0.0', port=8050, debug=True)
 	
