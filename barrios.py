@@ -73,8 +73,10 @@ def main_update_output(value):
 	[dash.dependencies.Input('show-index-check', 'value')]
 )
 def index_show_map(checklist_values):
-	print('evaluate checklist')
-	print(checklist_values)
+	if len(checklist_values) == 0:
+		return html.H2(children="", className='h2-title')
+	else:
+		return index_calculation.update_index_map()
 	
 		
 		

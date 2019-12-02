@@ -6,16 +6,20 @@ import pandas as pd
 from sqlalchemy import create_engine
 import dash_table
 
+#engine = create_engine('postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
+engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
+barrios = pd.read_sql('select * from barrios',engine.connect())
+barrios.drop(['level_0'], axis=1)
+barrios_top = barrios.nlargest(15,'index')
+
+token = 'pk.eyJ1IjoibmV3dXNlcmZvcmV2ZXIiLCJhIjoiY2o2M3d1dTZiMGZobzMzbnp2Z2NiN3lmdyJ9.cQFKe3F3ovbfxTsM9E0ZSQ'
+
 def content():
 	
 	
 	
 	
-	#engine = create_engine('postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
-	engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
-	barrios = pd.read_sql('select * from barrios',engine.connect())
-	barrios.drop(['level_0'], axis=1)
-	barrios_top = barrios.nlargest(15,'index')
+
 	
 	return html.Div([
             html.H3('Barrios con mejor indice'),
@@ -49,3 +53,31 @@ def content():
 			html.Div(id='index-map-content')	
 			
     ])
+	
+	
+def update_index_map():
+
+	with open('neigh_id.geojson') as f:
+		geojson = json.loads(f.read())
+
+	return html.Div([
+				dcc.Graph(
+					id = 'bogota-index-map', 
+					figure={ 
+							'data': [go.Choroplethmapbox(
+								geojson=geojson,
+								locations=barrios['cod_barrio'],
+								text=barrios['barrio'],
+								z=barrios['index'],
+								colorscale='Viridis',
+								colorbar_title="Values"
+							)],
+							'layout': go.Layout(
+									mapbox_style="light",
+									mapbox_accesstoken=token,
+									mapbox_zoom=9,
+									mapbox_center = {"lat": 4.6918154, "lon": -74.0765448}
+							)
+					}
+				)
+		])
