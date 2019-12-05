@@ -26,7 +26,7 @@ airbnb_date = airbnb[airbnb['Fecha_Corte']=='2019-02-01']
 airbnb_date.Media_Arriendo = airbnb_date.Media_Arriendo.astype(float)
 data_to_map = airbnb_date[['Cod_Barrio','Barrio','Media_Arriendo']]
 data_to_map.set_index('Cod_Barrio')
-data_to_map = data_to_map[data_to_map['Media_Arriendo'] > 0]
+#data_to_map = data_to_map[data_to_map['Media_Arriendo'] > 0]
 
 
 token = 'pk.eyJ1IjoibmV3dXNlcmZvcmV2ZXIiLCJhIjoiY2o2M3d1dTZiMGZobzMzbnp2Z2NiN3lmdyJ9.cQFKe3F3ovbfxTsM9E0ZSQ'
@@ -98,7 +98,7 @@ def update_map(date_received=None):
 	
 	data_to_map.set_index('Cod_Barrio')
 	
-	data_to_map = data_to_map[data_to_map['Media_Arriendo'] > 0]
+	#data_to_map = data_to_map[data_to_map['Media_Arriendo'] > 0]
 		
 	return { 
 			'data': [go.Choroplethmapbox(
