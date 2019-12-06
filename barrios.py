@@ -77,6 +77,26 @@ def index_show_map(checklist_values):
 	else:
 		return index_calculation.update_index_map()
 	
+@app.callback(
+	dash.dependencies.Output('graph-boxplot-index', 'figure'),
+	[dash.dependencies.Input('show-index-sd', 'value')]
+)
+def index_show_map(checklist_values):
+	if len(checklist_values) == 0:
+		return index_calculation.update_boxplot_index_no_sd()
+	else:
+		return index_calculation.update_boxplot_index_sd()
+
+@app.callback(
+	dash.dependencies.Output('elbow-content', 'children'),
+	[dash.dependencies.Input('show-elbow', 'value')]
+)
+def elbow_show_graph(checklist_values):
+	if len(checklist_values) == 0:
+		return html.H2(children="")
+	else:
+		return index_calculation.update_elbow()
+
 		
 		
 if __name__ == "__main__":
