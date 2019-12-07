@@ -9,8 +9,12 @@ import numpy as np
 
 engine = create_engine('postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
 #engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
-barrios = pd.read_sql('select cod_barrio, barrio, index, cluster from barrios',engine.connect())
+barrios = pd.read_sql('select cod_barrio,  barrio, c1_index AS index, cluster from info_barrios_codigos_1',engine.connect())
 barrios_top = barrios.nlargest(15,'index')
+
+elbow_df = pd.read_csv('data/elbow_plot_data.csv')
+x_df = pd.read_csv('data/x_df.csv')
+centers_df = pd.read_csv('data/centers_df.csv')
 
 x = np.arange(10)
 
@@ -50,8 +54,8 @@ def content():
 								'layout': go.Layout(
 											mapbox_style="light",
 											mapbox_accesstoken=token,
-											mapbox_zoom=9,
-											mapbox_center = {"lat": 4.6918154, "lon": -74.0765448}
+											mapbox_zoom=10,
+											mapbox_center = {"lat": 4.6418154, "lon": -74.0765448}
 										)
 							}
 						),
@@ -96,10 +100,10 @@ def content():
 								id='graph-2-tabs',
 								figure={
 									'data': [
-										go.Scatter(x=barrios['index'], 
-													y=barrios['cluster'], 
+										go.Scatter(x=x_df['0'], 
+													y=x_df['1'], 
 													mode='markers',
-													marker_color=barrios['cluster'],													
+													marker_color=x_df['y_kmeans'],													
 													text=barrios['barrio']
 									)]
 								}
@@ -205,7 +209,7 @@ def update_elbow():
 					id='graph-elbow',
 						figure={
 							'data': [
-								go.Scatter(x=x, y=x**2
+								go.Scatter(x=elbow_df['NumberClusters'], y=elbow_df['Score']
 						)]
 					}
 				)
