@@ -23,7 +23,7 @@ insert into barrios
 select distinct "Cod_Barrio", "Barrio"
 from airbnb;
 
-select *
+select count(*)
 from barrios; 
 
 

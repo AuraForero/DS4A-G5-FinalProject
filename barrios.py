@@ -40,8 +40,8 @@ app.layout = html.Div([
 	html.Hr(),
     dcc.Tabs(id="bogota-tabs", value='tabs-container', children=[
         dcc.Tab(label='Cálculo del índice', value='index-calculation'), 
-		dcc.Tab(label='Revisión de barrios', value='neighborhood-review'), 
 		dcc.Tab(label='Comparación', value='compare'), 
+		dcc.Tab(label='Revisión de barrios', value='neighborhood-review'), 
 		dcc.Tab(label='Descripción de variables', value='main'), 
 	]),
 	html.Div(id='tabs-content')	

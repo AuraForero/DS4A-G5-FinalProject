@@ -18,8 +18,47 @@ token = 'pk.eyJ1IjoibmV3dXNlcmZvcmV2ZXIiLCJhIjoiY2o2M3d1dTZiMGZobzMzbnp2Z2NiN3lm
 
 def content():
 
+	with open('neigh_id.geojson') as f:
+		geojson = json.loads(f.read())
 	
 	return html.Div([
+			html.Div(
+				className="row",
+				children=[
+					html.Div([
+						html.Br(),
+						html.H5('Distribución geografica del indice'),
+						#dcc.Checklist(
+						#	options=[
+						#		{'label': 'Ver en mapa', 'value': 'MAP'}
+						#	],
+						#	value=[], 
+						#	id='show-index-check'
+						#), 
+						dcc.Graph(
+							id = 'bogota-index-map', 
+							figure={ 
+								'data': [
+											go.Choroplethmapbox(
+												geojson=geojson,
+												locations=barrios['cod_barrio'],
+												text=barrios['barrio'],
+												z=barrios['index'],
+												colorscale='YlOrRd',
+												colorbar_title="Values"
+										)],
+								'layout': go.Layout(
+											mapbox_style="light",
+											mapbox_accesstoken=token,
+											mapbox_zoom=9,
+											mapbox_center = {"lat": 4.6918154, "lon": -74.0765448}
+										)
+							}
+						),
+						html.Div(id='index-map-content')
+					])
+				]	
+			),
 			html.Div(
 				className="row",
                 children=[
@@ -108,23 +147,6 @@ def content():
 							page_size= 20
 						),
 					]), 
-					html.Div(
-						className="six columns",
-						children=[
-							html.Div([
-								html.H5('Heatmap del indice'),
-								dcc.Checklist(
-									options=[
-										{'label': 'Ver en mapa', 'value': 'MAP'}
-									],
-									value=[], 
-									id='show-index-check'
-								), 
-								html.Br(),
-								html.Div(id='index-map-content')
-							])
-						]	
-					)
 				]
 			),
 		])
