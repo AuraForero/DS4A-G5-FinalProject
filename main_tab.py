@@ -13,14 +13,9 @@ import time
 engine = create_engine('postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
 #engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
 airbnb = pd.read_sql('select * from airbnb',engine.connect())
-print('queriing database')
 periods_data = airbnb.Fecha_Corte.unique()
 periods_data.sort()
 periods_data = list(periods_data)
-#periods_data = [int(i.replace("-", "")) for i in periods_data]
-print(type(periods_data))
-print(periods_data)
-#airbnb_date = airbnb[airbnb['Fecha_Corte']=='2019-02-01 00:00:00']
 airbnb_date = airbnb[airbnb['Fecha_Corte']=='2019-02-01']
 
 airbnb_date.Media_Arriendo = airbnb_date.Media_Arriendo.astype(float)

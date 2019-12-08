@@ -49,7 +49,7 @@ def content():
 												text=barrios['barrio'],
 												z=barrios['index'],
 												colorscale='YlOrRd',
-												colorbar_title="Values"
+												colorbar_title="Indices"
 										)],
 								'layout': go.Layout(
 											mapbox_style="light",
@@ -103,9 +103,23 @@ def content():
 										go.Scatter(x=x_df['0'], 
 													y=x_df['1'], 
 													mode='markers',
-													marker_color=x_df['y_kmeans'],													
+													marker_color=x_df['y_kmeans'],	
+													name='Clusters', 
+													marker=dict(
+														size=10,
+														color=np.random.randn(500), #set color equal to a variable
+														colorscale='Viridis', # one of plotly colorscales
+														showscale=True
+													), 
 													text=barrios['barrio']
-									)]
+										), 
+										go.Scatter(x=centers_df['0'], 
+													y=centers_df['1'], 
+													mode='markers',
+													name='Centros', 
+													marker_color='black'
+										)
+									]
 								}
 							),
 							dcc.Checklist(
@@ -119,6 +133,36 @@ def content():
 						]	
 					)
 				]
+			),
+			html.Div(
+				className="row",
+				children=[
+					html.Div([
+						html.Br(),
+						html.H5('Distribución geografica de los clusteres'),
+						dcc.Graph(
+							id = 'bogota-cluster-map', 
+							figure={ 
+								'data': [
+											go.Choroplethmapbox(
+												geojson=geojson,
+												locations=barrios['cod_barrio'],
+												text=barrios['barrio'],
+												z=barrios['cluster'],
+												colorscale='YlGnBu',
+												colorbar_title="Clusters"
+										)],
+								'layout': go.Layout(
+											mapbox_style="light",
+											mapbox_accesstoken=token,
+											mapbox_zoom=10,
+											mapbox_center = {"lat": 4.6418154, "lon": -74.0765448}
+										)
+							}
+						),
+						html.Div(id='index-map-content')
+					])
+				]	
 			),
 			html.Div(
 				className="row",
