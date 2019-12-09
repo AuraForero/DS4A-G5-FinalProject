@@ -7,20 +7,21 @@ from sqlalchemy import create_engine
 import dash_table
 import numpy as np
 
-engine = create_engine('postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
-#engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
-barrios = pd.read_sql('select cod_barrio,  barrio, c1_index AS index, cluster from info_barrios_codigos_1',engine.connect())
-barrios_top = barrios.nlargest(15,'index')
 
-elbow_df = pd.read_csv('data/elbow_plot_data.csv')
-x_df = pd.read_csv('data/x_df.csv')
-centers_df = pd.read_csv('data/centers_df.csv')
-
-x = np.arange(10)
 
 token = 'pk.eyJ1IjoibmV3dXNlcmZvcmV2ZXIiLCJhIjoiY2o2M3d1dTZiMGZobzMzbnp2Z2NiN3lmdyJ9.cQFKe3F3ovbfxTsM9E0ZSQ'
 
 def content():
+
+	engine = create_engine('postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
+	# engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
+	barrios = pd.read_sql('select cod_barrio,  barrio, c1_index AS index, cluster from info_barrios_codigos_1',
+						  engine.connect())
+	barrios_top = barrios.nlargest(15, 'index')
+
+	elbow_df = pd.read_csv('data/elbow_plot_data.csv')
+	x_df = pd.read_csv('data/x_df.csv')
+	centers_df = pd.read_csv('data/centers_df.csv')
 
 	with open('neigh_id.geojson') as f:
 		geojson = json.loads(f.read())
@@ -32,13 +33,6 @@ def content():
 					html.Div([
 						html.Br(),
 						html.H5('Distribución geografica del indice'),
-						#dcc.Checklist(
-						#	options=[
-						#		{'label': 'Ver en mapa', 'value': 'MAP'}
-						#	],
-						#	value=[], 
-						#	id='show-index-check'
-						#), 
 						dcc.Graph(
 							id = 'bogota-index-map', 
 							figure={ 
@@ -202,6 +196,12 @@ def content():
 	
 def update_index_map():
 
+	engine = create_engine(
+		'postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
+	# engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
+	barrios = pd.read_sql('select cod_barrio,  barrio, c1_index AS index, cluster from info_barrios_codigos_1',
+						  engine.connect())
+
 	with open('neigh_id.geojson') as f:
 		geojson = json.loads(f.read())
 
@@ -227,8 +227,14 @@ def update_index_map():
 				)
 		])
 		
-def update_boxplot_index_sd():	
-		return 	{
+def update_boxplot_index_sd():
+	engine = create_engine(
+		'postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
+	# engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
+	barrios = pd.read_sql('select cod_barrio,  barrio, c1_index AS index, cluster from info_barrios_codigos_1',
+						  engine.connect())
+
+	return 	{
 			'data': [go.Box(
 						y=barrios['index'], 
 						name='Indice', 
@@ -238,8 +244,14 @@ def update_boxplot_index_sd():
 					]
 		}
 					
-def update_boxplot_index_no_sd():	
-		return 	{
+def update_boxplot_index_no_sd():
+	engine = create_engine(
+		'postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
+	# engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
+	barrios = pd.read_sql('select cod_barrio,  barrio, c1_index AS index, cluster from info_barrios_codigos_1',
+						  engine.connect())
+
+	return 	{
 			'data': [go.Box(
 						y=barrios['index'], 
 						name='Indice', 
@@ -248,8 +260,16 @@ def update_boxplot_index_no_sd():
 					]
 		}
 		
-def update_elbow():	
-		return 	dcc.Graph(
+def update_elbow():
+	engine = create_engine(
+		'postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
+	# engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
+	barrios = pd.read_sql('select cod_barrio,  barrio, c1_index AS index, cluster from info_barrios_codigos_1',
+						  engine.connect())
+
+	elbow_df = pd.read_csv('data/elbow_plot_data.csv')
+	
+	return 	dcc.Graph(
 					id='graph-elbow',
 						figure={
 							'data': [
