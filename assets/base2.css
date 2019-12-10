@@ -23,6 +23,13 @@
 - Media Queries
 */
 
+@font-face {
+  font-family: Rajdhani;
+  src: url('Rajdhani-Bold.ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
 /* Grid */
 .container {
   position: relative;
@@ -194,7 +201,6 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 0;
   margin-bottom: 2rem;
   font-weight: 300;
 }
@@ -253,6 +259,33 @@ h6 {
 
 p {
   margin-top: 0;
+}
+
+
+/* Custom Typography */
+.h2-title,
+.my-tabs{
+    font-family: Rajdhani;
+    font-size: 1.3em;
+  }
+
+.h2-title {
+    font-size: 5em;
+    padding-left: 15px;
+    margin: 3px;
+}
+
+.my-subtitles{
+    padding-left: 15px;
+}
+
+/*Custom Divs*/
+.custom-header{
+    padding: 0px 15px;
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: row wrap;
 }
 
 /* Links */
@@ -467,7 +500,6 @@ pre,
 blockquote,
 dl,
 figure,
-table,
 p,
 ul,
 ol,

@@ -23,26 +23,25 @@ app.config.suppress_callback_exceptions = True
 app.layout = html.Div([
 	html.Div(
 		children=[
-			html.Table(
-				[html.Tr(
-					[
-					html.Td(
+			html.Div(
+				children = [html.Div( className='custom-header',
+					children = [
+					html.Div(
 						html.Img(src=app.get_asset_url('bogota.png'))		
 					),
-					html.Td(
-						html.H2(children="Coolness Index", className='h2-title')		
+					html.Div(
+						html.H2(children="Coolness Index", className='h2-title')
 					)
 					]
 				)]
 			)
 		]
     ),
-	html.Hr(),
     dcc.Tabs(id="bogota-tabs", value='tabs-container', children=[
-        dcc.Tab(label='Cálculo del índice', value='index-calculation'), 
-		dcc.Tab(label='Comparación', value='compare'), 
-		dcc.Tab(label='Revisión de barrios', value='neighborhood-review'), 
-		dcc.Tab(label='Descripción de variables', value='main'), 
+        dcc.Tab(label='Cálculo del índice', value='index-calculation', className='my-tabs'),
+		dcc.Tab(label='Comparación', value='compare', className='my-tabs'),
+		dcc.Tab(label='Revisión de barrios', value='neighborhood-review', className='my-tabs'),
+		dcc.Tab(label='Descripción de variables', value='main', className='my-tabs'),
 	]),
 	html.Div(id='tabs-content')	
 ])

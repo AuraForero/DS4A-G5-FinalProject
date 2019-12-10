@@ -12,28 +12,31 @@ import time
 
 engine = create_engine('postgresql://elalbeiro:9988776655@extendedcase4.csuiz4fdxyvv.us-east-2.rds.amazonaws.com/postgres')
 #engine = create_engine('postgresql://nps_demo_user:nps_demo_user@ds4a-db.cfpdqvxu6j5d.us-east-2.rds.amazonaws.com/nps_demo_db')
-airbnb = pd.read_sql('select * from airbnb',engine.connect())
-periods_data = airbnb.Fecha_Corte.unique()
-periods_data.sort()
-periods_data = list(periods_data)
-airbnb_date = airbnb[airbnb['Fecha_Corte']=='2019-02-01']
 
-airbnb_date.Media_Arriendo = airbnb_date.Media_Arriendo.astype(float)
-data_to_map = airbnb_date[['Cod_Barrio','Barrio','Media_Arriendo']]
-data_to_map.set_index('Cod_Barrio')
-#data_to_map = data_to_map[data_to_map['Media_Arriendo'] > 0]
 
 
 token = 'pk.eyJ1IjoibmV3dXNlcmZvcmV2ZXIiLCJhIjoiY2o2M3d1dTZiMGZobzMzbnp2Z2NiN3lmdyJ9.cQFKe3F3ovbfxTsM9E0ZSQ'
 
-with open('neigh_id.geojson') as f:
-    geojson = json.loads(f.read())
+
 
 #neighs_data = pd.read_csv('neigh_data.csv', dtype={'id': object})
 
 
 
 def content(date_received=None):
+	airbnb = pd.read_sql('select * from airbnb', engine.connect())
+	periods_data = airbnb.Fecha_Corte.unique()
+	periods_data.sort()
+	periods_data = list(periods_data)
+	airbnb_date = airbnb[airbnb['Fecha_Corte'] == '2019-02-01']
+
+	airbnb_date.Media_Arriendo = airbnb_date.Media_Arriendo.astype(float)
+	data_to_map = airbnb_date[['Cod_Barrio', 'Barrio', 'Media_Arriendo']]
+	data_to_map.set_index('Cod_Barrio')
+	# data_to_map = data_to_map[data_to_map['Media_Arriendo'] > 0]
+
+	with open('neigh_id.geojson') as f:
+		geojson = json.loads(f.read())
 
 	if not date_received:
 		airbnb_date = airbnb[airbnb['Fecha_Corte']=='2019-02-01']
@@ -68,9 +71,21 @@ def content(date_received=None):
             ])
 			
 
-def update_map(date_received=None):	
+def update_map(date_received=None):
 
-	
+	airbnb = pd.read_sql('select * from airbnb', engine.connect())
+	periods_data = airbnb.Fecha_Corte.unique()
+	periods_data.sort()
+	periods_data = list(periods_data)
+	airbnb_date = airbnb[airbnb['Fecha_Corte'] == '2019-02-01']
+
+	airbnb_date.Media_Arriendo = airbnb_date.Media_Arriendo.astype(float)
+	data_to_map = airbnb_date[['Cod_Barrio', 'Barrio', 'Media_Arriendo']]
+	data_to_map.set_index('Cod_Barrio')
+	# data_to_map = data_to_map[data_to_map['Media_Arriendo'] > 0]
+
+	with open('neigh_id.geojson') as f:
+		geojson = json.loads(f.read())
 
 	start = time.time()
 	
