@@ -96,7 +96,13 @@ def elbow_show_graph(checklist_values):
 	else:
 		return index_calculation.update_elbow()
 
-		
+@app.callback(
+    dash.dependencies.Output('comparing-scatterpolar', 'figure'),
+    [dash.dependencies.Input('barrios-dropdown-1', 'value'), 
+	 dash.dependencies.Input('barrios-dropdown-2', 'value')])
+def compare_update_radar(barrio1, barrio2):
+	return compare.update_radar_chart(barrio1, barrio2)
+	
 		
 if __name__ == "__main__":
     app.run_server(host='0.0.0.0', port=8050, debug=True)
